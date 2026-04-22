@@ -31,7 +31,7 @@ struct Token {
 
 std::string tokenTypeToString(const TokenType &t) {
     switch(t) {
-        case NUMBER: return "NUMBERS";
+        case NUMBER: return "NUMBER";
         case IDENTIFIER: return "IDENTIFIER";
         case EQUAL: return "EQUALS";
         case LPAREN: return "LPAREN";

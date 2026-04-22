@@ -1,6 +1,7 @@
 #include <string>
 #include <iostream>
 #include <vector>
+#include <cctype>
 #ifndef LEXER_H
 #define LEXER_H
 
@@ -80,11 +81,19 @@ public:
     /* Method to get the next token in the source program */
     Token getNextToken() {
         skipWhitespace();
-
+        
         // Token a number literal.
         if (isdigit(peek())) {
             std::string num;
-            while (isdigit(peek()) || peek() == '.') num += get();
+            bool hasDot = false;
+
+            while (isdigit(peek()) || peek() == '.') {
+                if (peek() == '.') {
+                    if (hasDot) break;
+                    hasDot = true;
+                }
+                num += get();
+            }
             return Token(NUMBER, num);
         }
 

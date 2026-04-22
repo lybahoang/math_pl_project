@@ -18,12 +18,12 @@ public:
  ------------------------------------------------------------------------------*/
 class BinaryOperationNode : public ASTNode {
     std::string op;
-    std::unique_ptr<ASTNode> left, right;
+    std::shared_ptr<ASTNode> left, right;
 
     BinaryOperationNode(const std::string &op,
-                        std::unique_ptr<ASTNode> l,
-                        std::unique_ptr<ASTNode> r)
-        : op{ op }, left{ std::move(l) }, right{ std::move(r) } { }
+                        std::shared_ptr<ASTNode> l,
+                        std::shared_ptr<ASTNode> r)
+        : op{ op }, left{ std::move(l) }, right{ r } { }
 
     void print(int indent) override {
         std::cout << "BinaryOperationNode" << std::endl;
@@ -35,10 +35,10 @@ class BinaryOperationNode : public ASTNode {
 
 class UnaryOperationNode : public ASTNode {
     std::string op;
-    std::unique_ptr<ASTNode> operand;
+    std::shared_ptr<ASTNode> operand;
 
-    UnaryOperationNode(const std::string &op, std::unique_ptr<ASTNode> expr)
-        : op{ op }, operand{ std::move(expr) } { }
+    UnaryOperationNode(const std::string &op, std::shared_ptr<ASTNode> expr)
+        : op{ op }, operand{ expr } { }
 
     void print(int indent) override {
         std::cout << "UnaryOperationNode" << std::endl;
@@ -49,10 +49,10 @@ class UnaryOperationNode : public ASTNode {
 
 class VariableDeclarationNode : public ASTNode {
     std::string name;
-    std::unique_ptr<ASTNode> expr;
+    std::shared_ptr<ASTNode> expr;
 
-    VariableDeclarationNode(const std::string &name, std::unique_ptr<ASTNode> expr)
-        : name{ name }, expr{ std::move(expr) } { }
+    VariableDeclarationNode(const std::string &name, std::shared_ptr<ASTNode> expr)
+        : name{ name }, expr{ expr } { }
 
     void print(int indent) override {
         std::cout << "VariableDeclarationNode" << std::endl;
@@ -64,10 +64,10 @@ class VariableDeclarationNode : public ASTNode {
 
 class AssignmentNode : public ASTNode {
     std::string name;
-    std::unique_ptr<ASTNode> expr;
+    std::shared_ptr<ASTNode> expr;
 
-    AssignmentNode(const std::string &name, std::unique_ptr<ASTNode> expr)
-        : name{ name }, expr{ std::move(expr) } { }
+    AssignmentNode(const std::string &name, std::shared_ptr<ASTNode> expr)
+        : name{ name }, expr{ expr } { }
 
     void print(int indent) override {
         std::cout << "AssignmentNode" << std::endl;
@@ -81,12 +81,12 @@ class AssignmentNode : public ASTNode {
 class FunctionDeclarationNode : public ASTNode {
     std::string name;
     std::string parameter;
-    std::unique_ptr<ASTNode> expr;
+    std::shared_ptr<ASTNode> expr;
 
     FunctionDeclarationNode(const std::string &name,
                             const std::string &para,
-                            std::unique_ptr<ASTNode> expr)
-        : name{ name }, parameter{ para }, expr{ std::move(expr) } { }
+                            std::shared_ptr<ASTNode> expr)
+        : name{ name }, parameter{ para }, expr{ expr } { }
 
     void print(int indent) override {
         std::cout << "FunctionDeclarationNode" << std::endl;
@@ -99,9 +99,9 @@ class FunctionDeclarationNode : public ASTNode {
 
 
 class PrintNode : public ASTNode {
-    std::unique_ptr<ASTNode> expr;
+    std::shared_ptr<ASTNode> expr;
 
-    PrintNode(std::unique_ptr<ASTNode> expr) : expr{ std::move(expr) } { }
+    PrintNode(std::shared_ptr<ASTNode> expr) : expr{ expr } { }
     void print(int indent) override {
         std::cout << "PrintNode" << std::endl;
         expr->print(indent + 5);
@@ -129,11 +129,11 @@ class NumberNode : public ASTNode {
 
 class FunctionCallNode : public ASTNode {
     std::string name;
-    std::vector<std::unique_ptr<ASTNode>> arguments;
+    std::vector<std::shared_ptr<ASTNode>> arguments;
 
     FunctionCallNode(const std::string &name,
-                     std::vector<std::unique_ptr<ASTNode>> args)
-        : name{ name }, arguments{ std::move(args) } { }
+                     std::vector<std::shared_ptr<ASTNode>> args)
+        : name{ name }, arguments{ args } { }
 
     void print(int indent) override {
         std::cout << "FunctionCallNode" << std::endl;
